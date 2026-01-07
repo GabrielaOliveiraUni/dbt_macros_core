@@ -1,13 +1,12 @@
 {# ============================================================================
-   MACRO: gerar_chave_incremental
-   Para modelos incrementais - mantém IDs antigos e gera novos sequenciais
-   Compatível com ORACLE
+    MACRO: gerar_chave_incremental
+    * Mantém IDs antigos e gera novos sequenciais
    
    Parâmetros:
    - colunas_ordenacao: Lista de colunas para ordenação
    - nome_coluna: Nome da coluna de ID (padrão: 'id')
    - tabela_destino: Tabela de destino (padrão: this)
-   - prefixo: Prefixo numérico opcional (ex: 100, 200, 5000)
+   - prefixo: Prefixo numérico (ex: 10, 2) - *Opcional*
 ============================================================================ #}
 {% macro gerar_chave_incremental(
     colunas_ordenacao,

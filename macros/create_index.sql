@@ -1,17 +1,22 @@
-{% macro create_index_safe(index_name, table_name, columns, unique=false) %}
+{% macro create_index_safe(index_name, table_name, columns, unique=true) %}
 
-{% set unique_sql = 'UNIQUE' if unique else '' %}
+{% if unique %}
+    {% set unique_sql = 'UNIQUE' %}
+{% else %}
+    {% set unique_sql = '' %}
+{% endif %}
+
 
 {% set sql %}
 DECLARE
-    v_count NUMBER;
+    existe_indice_com_esse_nome NUMBER;
 BEGIN
     SELECT COUNT(*)
-    INTO v_count
+    INTO existe_indice_com_esse_nome
     FROM user_indexes
     WHERE index_name = UPPER('{{ index_name }}');
 
-    IF v_count = 0 THEN
+    IF existe_indice_com_esse_nome = 0 THEN
         EXECUTE IMMEDIATE '
             CREATE {{ unique_sql }} INDEX {{ index_name }}
             ON {{ table_name }} ({{ columns | join(", ") }})
